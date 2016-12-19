@@ -1,11 +1,14 @@
 {% from "docker/map.jinja" import containers with context %}
 
+include:
+  - docker
+
 {% for name, container in containers.items() %}
 docker-image-{{ name }}:
   cmd.run:
     - name: docker pull {{ container.image }}
     - require:
-      - service: docker-service
+      - service: docker
 
 {# TODO: SysV init script #}
 {%- set init_system = salt["cmd.run"]("ps -p1 | grep -q systemd && echo systemd || echo upstart") %}
