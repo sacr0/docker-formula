@@ -23,5 +23,5 @@ docker-config:
     - mode: 644
     - user: root
     - require:
-      - docker package
+      - pkg: docker
 

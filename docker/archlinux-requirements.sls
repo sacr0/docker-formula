@@ -21,3 +21,5 @@ docker_storagedriver:
       - "[Service]"
       - "ExecStart="
       - "ExecStart=/usr/bin/dockerd -H fd:// -s overlay2"
+    - require:
+      - pkg: docker
