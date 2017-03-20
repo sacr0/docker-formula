@@ -13,13 +13,13 @@ docker_modprobe:
     - order: 1
 
 # use the latest storage driver, as suggested by ArchLinux
-docker_storagedriver:
-  file.managed:
-    - name: /etc/systemd/system/docker.service.d/override.conf
-    - makedirs: True
-    - contents: 
-      - "[Service]"
-      - "ExecStart="
-      - "ExecStart=/usr/bin/dockerd -H fd:// -s overlay2"
-    - require:
-      - pkg: docker
+#docker_storagedriver:
+#  file.managed:
+#    - name: /etc/systemd/system/docker.service.d/override.conf
+#    - makedirs: True
+#    - contents: 
+#      - "[Service]"
+#      - "ExecStart="
+#      - "ExecStart=/usr/bin/dockerd -H fd:// -s overlay2"
+#    - require:
+#      - pkg: docker
