@@ -22,6 +22,7 @@ docker-config:
     - template: jinja
     - mode: 644
     - user: root
+    - makedirs: True
     - require:
       - pkg: docker
 
