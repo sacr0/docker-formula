@@ -18,18 +18,7 @@
   {%- if 'ports' in container and container.ports is iterable %}
     - port_bindings:
     {%- for port_mapping in container.ports %}
-      {%- if port_mapping is string %}
-        {%- set mapping = port_mapping.split(':',2) %}
-        {%- if mapping|length < 2 %}
-      - "{{mapping[0]}}"
-        {%- else %}
-      - "{{mapping[-1]}}/tcp":
-            HostPort: "{{mapping[-2]}}"
-            HostIp: "{{mapping[-3]|d('')}}"
-        {%- endif %}
-      {%- elif port_mapping is mapping %}
-      - {{port_mapping}}
-      {%- endif %}
+      - '{{port_mapping}}'
     {%- endfor %}
   {%- endif %}
   {%- if 'volumes' in container %}
@@ -54,11 +43,10 @@
     {%- endfor %}
   {%- endif %}
   {%- if 'restart' in container %}
-    - restart_policy: {{container.restart}}
+    - restart_policy: '{{container.restart}}'
   {%- endif %}
+  {%- if required_containers|length > 0 %}
     - require:
-      - docker: {{id}} image
-  {%- if required_containers is defined %}
     {%- for containerid in required_containers %}
       - docker: {{containerid}}
     {%- endfor %}
