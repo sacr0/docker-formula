@@ -2,22 +2,8 @@
 {%- for name, container in compose.items() %}
   {%- set id = container.container_name|d(name) %}
   {%- set required_containers = [] %}
-{{id}} image:
-  docker.pulled:
-  {%- if ':' in container.image %}
-    {%- set image = container.image.split(':',1) %}
-    - name: {{image[0]}}
-    - tag: {{image[1]}}
-  {%- else %}
-    - name: {{container.image}}
-  {%- endif %}
-
-{{id}} container:
-  {%- if 'dvc' in container and container.dvc %}
-  docker.installed:
-  {%- else %}
+{{id}}_container:
   docker.running:
-  {%- endif %}
     - name: {{id}}
     - image: {{container.image}}
   {%- if 'command' in container %}
@@ -30,7 +16,7 @@
     {%- endfor %}
   {%- endif %}
   {%- if 'ports' in container and container.ports is iterable %}
-    - ports:
+    - port_bindings:
     {%- for port_mapping in container.ports %}
       {%- if port_mapping is string %}
         {%- set mapping = port_mapping.split(':',2) %}
@@ -68,12 +54,7 @@
     {%- endfor %}
   {%- endif %}
   {%- if 'restart' in container %}
-    - restart_policy:
-    {%- set policy = container.restart.split(':',1) %}
-        Name: {{policy[0]}}
-    {%- if policy|length > 1 %}
-        MaximumRetryCount: {{policy[1]}}
-    {%- endif %}
+    - restart_policy: {{container.restart}}
   {%- endif %}
     - require:
       - docker: {{id}} image
