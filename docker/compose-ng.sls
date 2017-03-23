@@ -1,3 +1,6 @@
+include:
+  - docker
+  
 {%- from "docker/map.jinja" import compose with context %}
 {%- for name, container in compose.items() %}
   {%- set id = container.container_name|d(name) %}
