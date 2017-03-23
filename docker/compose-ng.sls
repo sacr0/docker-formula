@@ -45,8 +45,9 @@
   {%- if 'restart' in container %}
     - restart_policy: '{{container.restart}}'
   {%- endif %}
-  {%- if required_containers|length > 0 %}
     - require:
+      - service: docker
+  {%- if required_containers|length > 0 %}
     {%- for containerid in required_containers %}
       - docker: {{containerid}}
     {%- endfor %}
