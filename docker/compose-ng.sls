@@ -2,7 +2,7 @@ include:
   - docker
   
 {%- from "docker/map.jinja" import compose with context %}
-{%- for name, container in compose.items() %}
+{%- for name, container in compose.items(), {} %}
   {%- set id = container.container_name|d(name) %}
   {%- set required_containers = [] %}
 {{id}}_container:
@@ -47,6 +47,9 @@ include:
   {%- endif %}
   {%- if 'restart' in container %}
     - restart_policy: '{{container.restart}}'
+  {%- endif %}
+  {%- if 'user' in container %}
+    - user: '{{container.user}}'
   {%- endif %}
     - require:
       - service: docker
