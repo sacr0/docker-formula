@@ -1,12 +1,23 @@
 include:
   - docker
-  
+
+# install pip and with pip docker-py as this is required for these modules to work
+dockerng_pip:
+  pkg.installed:
+    - name: python2-pip
+
+dockerng_pip_docker-py:
+  pip.installed:
+    - name: docker-py >= 1.4.0
+    - require:
+      - pkg: dockerng_pip
+
 {%- from "docker/map.jinja" import compose with context %}
 {%- for name, container in compose.items() %}
   {%- set id = container.container_name|d(name) %}
   {%- set required_containers = [] %}
 {{id}}_container:
-  docker.running:
+  dockerng.running:
     - name: {{id}}
     - image: {{container.image}}
   {%- if 'command' in container %}
@@ -15,7 +26,7 @@ include:
   {%- if 'environment' in container and container.environment is iterable %}
     - environment:
     {%- for variable, value in container.environment.iteritems() %}
-        - {{variable}}: {{value}}
+        - {{variable}}: '{{value}}'
     {%- endfor %}
   {%- endif %}
   {%- if 'ports' in container and container.ports is iterable %}
@@ -27,26 +38,33 @@ include:
   {%- if 'volumes' in container %}
     - volumes:
     {%- for volume in container.volumes %}
-      - {{volume}}
+      - '{{volume}}'
     {%- endfor %}
   {%- endif %}
   {%- if 'volumes_from' in container %}
     - volumes_from:
     {%- for volume in container.volumes_from %}
       {%- do required_containers.append(volume) %}
-      - {{volume}}
+      - '{{volume}}'
+    {%- endfor %}
+  {%- endif %}
+  {%- if 'binds' in container %}
+    - binds:
+    {%- for bind in container.binds %}
+      - '{{bind}}'
     {%- endfor %}
   {%- endif %}
   {%- if 'links' in container %}
     - links:
     {%- for link in container.links %}
-      {%- set name, alias = link.split(':',1) %}
-      {%- do required_containers.append(name) %}
-        {{name}}: {{alias}}
+#      {%- set name, alias = link.split(':',1) %}
+#      {%- do required_containers.append(name) %}
+#        - '{{name}}:{{alias}}'
+         - '{{link}}'
     {%- endfor %}
   {%- endif %}
-  {%- if 'restart' in container %}
-    - restart_policy: '{{container.restart}}'
+  {%- if 'restart_policy' in container %}
+    - restart_policy: '{{container.restart_policy}}'
   {%- endif %}
   {%- if 'user' in container %}
     - user: '{{container.user}}'
@@ -55,7 +73,7 @@ include:
       - service: docker
   {%- if required_containers|length > 0 %}
     {%- for containerid in required_containers %}
-      - docker: {{containerid}}
+      - dockerng: {{containerid}}
     {%- endfor %}
   {%- endif %}
 {% endfor %}
