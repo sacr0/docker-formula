@@ -1,5 +1,6 @@
 include:
   - docker
+  - docker.volumes
   
 {%- from "docker/map.jinja" import compose with context %}
 {%- for name, container in compose.items() %}
