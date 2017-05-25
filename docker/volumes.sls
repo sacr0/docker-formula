@@ -1,7 +1,7 @@
 include:
   - docker
-  
-{%- for name, volume in salt['pillar.get']('docker:volumes', {}) %}
+
+{%- for name, volume in salt['pillar.get']('docker:volumes', {}).iteritems() %}
 docker_volume_{{name}}:
   docker.{{ volume.get('state', "present") }}:
     - name: {{ name }}
