@@ -14,7 +14,7 @@ docker_volume_{{name}}:
         - {{variable}}: {{value}}
     {%- endfor %}
   {%- endif %}
-  {%- if 'force' in container  %}
+  {%- if 'force' in volume  %}
     - force: {{ volume.get('driver', "False") }}
   {%- endif %}
 {% endfor %}
