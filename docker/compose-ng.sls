@@ -11,7 +11,7 @@ dockerng_pip_docker:
   pip.installed:
     - name: docker
     - require:
-      - pip: dockerng_pip_docker
+      - pip: dockerng_pip_docker-py
     
 dockerng_pip_docker-py:
   pip.removed:
