@@ -74,7 +74,7 @@ dockerng_pip_docker-py:
       - service: docker
   {%- if required_containers|length > 0 %}
     {%- for containerid in required_containers %}
-      - dockerng: {{containerid}}
+      - docker_container: {{containerid}}
     {%- endfor %}
   {%- endif %}
 {% endfor %}
