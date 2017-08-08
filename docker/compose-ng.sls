@@ -18,7 +18,7 @@ dockerng_pip_docker-py:
   {%- set id = container.container_name|d(name) %}
   {%- set required_containers = [] %}
 {{id}}_container:
-  dockerng.running:
+  docker_container.running:
     - name: {{id}}
     - image: {{container.image}}
   {%- if 'command' in container %}
