@@ -3,7 +3,7 @@ include:
 
 {%- for name, volume in salt['pillar.get']('docker:volumes', {}).iteritems() %}
 docker_volume_{{name}}:
-  docker_volume.{{ volume.get('state', "volume_present") }}:
+  docker_volume.{{ volume.get('state', "present") }}:
     - name: {{ name }}
   {%- if 'driver' in volume %}
     - driver: {{ volume.get('driver', "local") }}
