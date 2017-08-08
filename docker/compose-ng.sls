@@ -7,8 +7,14 @@ dockerng_pip:
   pkg.installed:
     - name: python2-pip
 
-dockerng_pip_docker-py:
+dockerng_pip_docker:
   pip.installed:
+    - name: docker
+    - require:
+      - pip: dockerng_pip_docker
+    
+dockerng_pip_docker-py:
+  pip.removed:
     - name: docker-py >= 1.4.0
     - require:
       - pkg: dockerng_pip
