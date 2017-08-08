@@ -15,7 +15,7 @@ dockerng_pip_docker:
     
 dockerng_pip_docker-py:
   pip.removed:
-    - name: docker-py >= 1.4.0
+    - name: docker-py
     - require:
       - pkg: dockerng_pip
 
