@@ -73,6 +73,9 @@ dockerng_pip_docker-py:
   {%- if 'restart_policy' in container %}
     - restart_policy: '{{container.restart_policy}}'
   {%- endif %}
+  {%- if 'auto_remove' in container %}
+    - auto_remove: '{{container.auto_remove}}'
+  {%- endif %}
   {%- if 'user' in container %}
     - user: '{{container.user}}'
   {%- endif %}
