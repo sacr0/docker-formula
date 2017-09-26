@@ -82,6 +82,9 @@ dockerng_pip_docker-py:
   {%- endif %}
     - require:
       - service: docker
+  {%- if id in salt['pillar.get']('docker:image', {}) %}
+      - docker_image: docker_image_{{ id }}
+  {%- endif %}
   {%- if required_containers|length > 0 %}
     {%- for containerid in required_containers %}
       - docker_container: {{containerid}}
