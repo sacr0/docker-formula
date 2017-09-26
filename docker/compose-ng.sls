@@ -1,6 +1,7 @@
 include:
   - docker
   - docker.volumes
+  - docker.images
 
 # install pip and with pip docker-py as this is required for these modules to work
 dockerng_pip:
