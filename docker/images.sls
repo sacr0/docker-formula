@@ -4,9 +4,9 @@ include:
 {%- for image_desc, image in salt['pillar.get']('docker:image', {}).iteritems() %}
 docker_image_{{image_desc}}:
   docker_image.{{ image.get('state', "present") }}:
-    - name: '{{ image.get('name', "") }}'
+#    - name: '{{ image.get('name', "") }}' # make sure the name is specified in the pillar
   {%- for variable, value in image.iteritems() %}
-  {%- if image.get(variable, "") is iterable %}
+  {%- if image.get('sls', "") and image.get(variable, "") is iterable %}
     - {{ variable }}:
     {%- for value2 in image.get(variable,[]) %}
       - '{{ value2 }}'
