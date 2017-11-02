@@ -80,6 +80,12 @@ dockerng_pip_docker-py:
   {%- if 'user' in container %}
     - user: '{{container.user}}'
   {%- endif %}
+  {%- if 'extra_hosts' in container and container.extra_hosts is iterable %}
+    - extra_hosts:
+    {%- for extra_host in container.extra_hosts %}
+      - '{{extra_host}}'
+    {%- endfor %}
+  {%- endif %}
     - require:
       - service: docker
   {%- if id in salt['pillar.get']('docker:image', {}) %}
