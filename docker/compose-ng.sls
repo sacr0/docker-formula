@@ -71,6 +71,15 @@ dockerng_pip_docker-py:
          - '{{link}}'
     {%- endfor %}
   {%- endif %}
+  {%- if 'logdriver' in container %}
+    - log_driver: '{{container.logdriver}}'
+  {%- endif %}
+  {%- if 'logopt' in container and container.logopt is iterable%}
+    - log_opt:
+    {%- for variable, value in container.logopt.iteritems() %}
+        - {{variable}}: '{{value}}'
+    {%- endfor %}
+  {%- endif %}
   {%- if 'restart_policy' in container %}
     - restart_policy: '{{container.restart_policy}}'
   {%- endif %}
