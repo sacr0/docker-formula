@@ -79,6 +79,8 @@ dockerng_pip_docker-py:
     {%- for variable, value in container.logopt.iteritems() %}
         - {{variable}}: '{{value}}'
     {%- endfor %}
+  {%- elif 'logopt' in container%}
+    - log_opt: '{{ container.logopt }}'
   {%- endif %}
   {%- if 'restart_policy' in container %}
     - restart_policy: '{{container.restart_policy}}'
