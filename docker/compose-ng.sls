@@ -28,6 +28,9 @@ dockerng_pip_docker-py:
   docker_container.running:
     - name: {{id}}
     - image: {{container.image}}
+  {%- if 'privileged' in container %}
+    - privileged: {{container.privileged}}
+  {%- endif %}
   {%- if 'command' in container %}
     - command: {{container.command}}
   {%- endif %}
