@@ -106,11 +106,15 @@ dockerng_pip_docker-py:
   {%- if 'cap_drop' in container %}
     - cap_drop: '{{container.cap_drop}}'
   {%- endif %}
-  {%- if 'dns' in container and container.dns is iterable %}
+  {%- if 'dns' in container %}
+  {%- if container.dns is iterable %}
     - dns:
     {%- for dns_record in container.dns %}
       - '{{dns_record}}'
     {%- endfor %}
+  {%- else %}
+    - dns: '{{container.dns}}'
+  {%- endif %}
   {%- endif %}
     - require:
       - service: docker
