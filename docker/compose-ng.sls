@@ -100,6 +100,18 @@ dockerng_pip_docker-py:
       - '{{extra_host}}'
     {%- endfor %}
   {%- endif %}
+  {%- if 'cap_add' in container %}
+    - cap_add: '{{container.cap_add}}'
+  {%- endif %}
+  {%- if 'cap_drop' in container %}
+    - cap_drop: '{{container.cap_drop}}'
+  {%- endif %}
+  {%- if 'dns' in container and container.dns is iterable %}
+    - dns:
+    {%- for dns_record in container.dns %}
+      - '{{dns_record}}'
+    {%- endfor %}
+  {%- endif %}
     - require:
       - service: docker
   {%- if id in salt['pillar.get']('docker:image', {}) %}
