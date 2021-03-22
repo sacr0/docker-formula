@@ -6,7 +6,7 @@ include:
 # install pip and with pip docker-py as this is required for these modules to work
 dockerng_pip:
   pkg.installed:
-    - name: python2-pip
+    - name: python-pip
 
 dockerng_pip_docker:
   pip.installed:
