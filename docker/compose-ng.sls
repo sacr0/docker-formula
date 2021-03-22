@@ -36,7 +36,7 @@ dockerng_pip_docker-py:
   {%- endif %}
   {%- if 'environment' in container and container.environment is iterable %}
     - environment:
-    {%- for variable, value in container.environment.iteritems() %}
+    {%- for variable, value in container.environment.items() %}
         - {{variable}}: '{{value}}'
     {%- endfor %}
   {%- endif %}
@@ -79,7 +79,7 @@ dockerng_pip_docker-py:
   {%- endif %}
   {%- if 'logopt' in container and container.logopt is iterable%}
     - log_opt:
-    {%- for variable, value in container.logopt.iteritems() %}
+    {%- for variable, value in container.logopt.items() %}
         - {{variable}}: '{{value}}'
     {%- endfor %}
   {%- elif 'logopt' in container%}

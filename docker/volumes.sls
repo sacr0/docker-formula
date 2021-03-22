@@ -1,7 +1,7 @@
 include:
   - docker
 
-{%- for name, volume in salt['pillar.get']('docker:volumes', {}).iteritems() %}
+{%- for name, volume in salt['pillar.get']('docker:volumes', {}).items() %}
 docker_volume_{{name}}:
   docker_volume.{{ volume.get('state', "present") }}:
     - name: {{ name }}
@@ -10,7 +10,7 @@ docker_volume_{{name}}:
   {%- endif %}
   {%- if 'driver_opts' in volume and volume.driver_opts is iterable %}
     - driver_opts:
-    {%- for variable, value in volume.driver_opts.iteritems() %}
+    {%- for variable, value in volume.driver_opts.items() %}
         - {{variable}}: {{value}}
     {%- endfor %}
   {%- endif %}
