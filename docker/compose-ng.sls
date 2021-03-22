@@ -34,6 +34,14 @@ dockerng_pip_docker-py:
   {%- if 'command' in container %}
     - command: {{container.command}}
   {%- endif %}
+  {%- if 'entrypoint' in container and container.entrypoint is iterable %}
+    - entrypoint:
+    {%- for entrypoint in container.entrypoint %}
+      - {{entrypoint}}
+    {%- endfor %}
+  {%- elif 'entrypoint' in container %}
+    - entrypoint: {{container.entrypoint}}
+  {%- endif %}
   {%- if 'environment' in container and container.environment is iterable %}
     - environment:
     {%- for variable, value in container.environment.items() %}
@@ -110,10 +118,10 @@ dockerng_pip_docker-py:
   {%- if container.dns is iterable %}
     - dns:
     {%- for dns_record in container.dns %}
-      - '{{dns_record}}'
+      - {{dns_record}}
     {%- endfor %}
   {%- else %}
-    - dns: '{{container.dns}}'
+    - dns: {{container.dns}}
   {%- endif %}
   {%- endif %}
     - require:
